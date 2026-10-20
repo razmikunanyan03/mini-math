@@ -9,6 +9,12 @@ class NegativeValueError(MathLibError, ValueError):
 class NonPrimeError(MathLibError, ValueError):
     pass
 
+class NonIntegerError(MathLibError, ValueError):
+    pass
+
+class NonNumericError(MathLibError, ValueError):
+    pass
+
 # === Statistic module errors ===
 
 class EmptyDataError(MathLibError, ValueError):

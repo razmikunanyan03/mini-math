@@ -1,16 +1,17 @@
 import copy
-from base import my_sqrt, my_sum
+from .exceptions import EmptyDataError, InsufficientDataError
+from .base import my_sqrt, my_sum
 
 def mean(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
 
     return my_sum(data) / len(data)
 
 
 def median(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
 
     n = len(data)
     sorted_data = data.sort()
@@ -23,10 +24,10 @@ def median(data):
 
 def variance(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
     n = len(data)
     if n < 2:
-        print("Can't count a variance of one element!")
+        raise InsufficientDataError("Can't count a variance of one element!")
 
     arithmetic_mean = mean(copy.deepcopy(data))
     squared_diff = ((value - arithmetic_mean) ** 2 for value in data)
@@ -36,16 +37,16 @@ def variance(data):
 
 def stdev(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
     if len(data) < 2:
-        print("Can't count a standard deviation of one element!")
+        raise InsufficientDataError("Can't count a standard deviation of one element!")
 
     return my_sqrt(variance(data))
 
 
 def my_mode(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
 
     counts = {}
     for value in data:

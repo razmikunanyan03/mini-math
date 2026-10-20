@@ -1,4 +1,5 @@
-from base import my_sqrt, my_pow, get_PI
+from .base import my_sqrt, my_pow, get_PI
+from .exceptions import NonNumericError, DegenerateShapeError
 
 my_PI = get_PI()
 
@@ -8,7 +9,7 @@ class Point:
             self.x = x
             self.y = y
         except ValueError:
-            pass
+            raise NonNumericError("Input numbers must be numeric!")
 
 
     @property
@@ -44,7 +45,10 @@ class LineSegment:
 
 
     def length(self):
-        return self.p1.distance_to(p2)
+        l = self.p1.distance_to(p2)
+        if l == 0:
+            raise DegenerateShapeError("Line segment length is zero!")
+        return l
 
     
     def midpoint(self):
@@ -67,6 +71,8 @@ class Circle:
         value = float(value)
         if value < 0:
             raise ValueError
+        if value == 0:
+            raise DegenerateShapeError("Circle radius mustn't be zero!")
 
         self._radius = value
 

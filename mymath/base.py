@@ -1,6 +1,8 @@
+from .exceptions import NegativeValueError, NonIntegerError, NonNumericError, EmptyDataError
+
 def factorial(n):
     if n < 0:
-        print("Can't count the factorial of a negative number!")
+        raise NegativeValueError("Can't count the factorial of a negative number!")
 
     if n == 0:
         return 1
@@ -21,7 +23,7 @@ def gcd(a, b):
             a, b = b, a % b
         return a
     except ValueError:
-        pass
+        raise NonIntegerError("Numbers for counting GCD must be integer!")
 
 
 def lcm(a, b):
@@ -32,10 +34,15 @@ def lcm(a, b):
         c = gcd(a, b)
         return (a * b) / c
     except ValueError:
-        pass
+        raise NonIntegerError("Numbers for counting LCM must be integer!")
 
 
 def is_prime(n):
+    try:
+        int(n)
+    except ValueError:
+        raise NonIntegerError("Numbers to be checked for primality must be integer!")
+
     if n <= 1:
         return False
     if n <= 3:
@@ -52,8 +59,13 @@ def is_prime(n):
 
 
 def my_sqrt(n, tolerance=1e-7):
+    try:
+        float(n)
+    except ValueError:
+        raise NonNumericError("The input is not a number!")
+
     if n < 0:
-        print("Can't count the root of a negative number!")
+        raise NegativeValueError("Can't count the root of a negative number!")
     if n == 0 or n == 1:
         return n
 
@@ -73,6 +85,11 @@ def my_sqrt(n, tolerance=1e-7):
 
 
 def cbrt(n, tolerance=1e-7):
+    try:
+        float(n)
+    except ValueError:
+        raise NonNumericError("The input is not a number!")
+
     if n == 0 or n == 1 or n == -1:
         return n
     abs_n = abs(n)
@@ -92,7 +109,7 @@ def cbrt(n, tolerance=1e-7):
 
 def my_sum(data):
     if not data:
-        print("Data is empty!")
+        raise EmptyDataError("Data is empty!")
 
     total = 0
     for value in data:
@@ -103,7 +120,7 @@ def my_sum(data):
 
 def cumsum(data):
     if not data:
-        print("Data is empty!")
+        EmptyDataError("Data is empty!")
 
     cum_data = [data[0]]
     for i, value in enumerate(data[1:], start=1):
@@ -113,7 +130,7 @@ def cumsum(data):
 
 def product(data):
     if not data:
-        print("Data is empty!")
+        EmptyDataError("Data is empty!")
 
     total = 1
     for value in data:
@@ -122,8 +139,21 @@ def product(data):
 
 
 def my_pow(n, x):
-    if x == 0:
+    try:
+        int(x)
+    except ValueError:
+        raise NonIntegerError("Power must be integer!")
+    try:
+        float(n)
+    except ValueError:
+        raise NonNumericError("The input is not a number!")
+
+    if x == 0 or n == 1:
         return 1.0
+    if n == 0:
+        if x <= 0:
+            raise NegativeValueError("0 power mustn't be negative!")
+        return 0.0
 
     if x < 0:
         x = -x
